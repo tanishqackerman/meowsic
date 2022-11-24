@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="positions"
+                    android:text="Lover"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="Ariana Grande" />
+                    android:text="Taylor Swift" />
 
             </LinearLayout>
 

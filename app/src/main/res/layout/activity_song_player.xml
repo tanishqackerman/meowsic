@@ -74,7 +74,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="positions"
+                android:text="Lover"
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -86,7 +86,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:maxLines="1"
-                android:text="Ariana Grande" />
+                android:text="Taylor Swift" />
 
             <com.google.android.material.slider.Slider
                 android:layout_width="match_parent"
