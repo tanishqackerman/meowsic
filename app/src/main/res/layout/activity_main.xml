@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="#09091F"
     tools:context=".activities.MainActivity">
+<!--    09091F-->
+
+<!--    <ImageView-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:src="@drawable/shadoweffect"/>-->
 
     <include
         android:id="@+id/appbar"
@@ -50,7 +56,7 @@
         app:cardBackgroundColor="#99eda6a6"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <!--        eda6a6-->
@@ -100,8 +106,8 @@
 
             <ImageView
                 android:id="@+id/bottomprev"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="17dp"
                 android:src="@drawable/previous"
@@ -109,8 +115,8 @@
 
             <ImageView
                 android:id="@+id/bottomplaypause"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="17dp"
                 android:src="@drawable/play"
@@ -118,8 +124,8 @@
 
             <ImageView
                 android:id="@+id/bottomnext"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/next"
@@ -130,17 +136,18 @@
     </androidx.cardview.widget.CardView>
 
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottomNavigationView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:labelVisibilityMode="unlabeled"-->
-<!--        app:itemIconSize="30dp"-->
-<!--        android:elevation="2dp"-->
-<!--        android:background="@drawable/shadoweffect"-->
-<!--        app:menu="@menu/bottommenu"/>-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="20dp"
+        android:elevation="2dp"
+        app:itemIconTint="@drawable/bottombar"
+        android:background="#1A1A31"
+        app:menu="@menu/bottommenu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

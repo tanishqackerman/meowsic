@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/house"/>
+
+    <item android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/search"/>
+
+    <item android:id="@+id/library"
+        android:title="Library"
+        android:icon="@drawable/library"/>
+
+    <item android:id="@+id/ari"
+        android:title="Ariana Grande"
+        android:icon="@drawable/ears"/>
+
+</menu>

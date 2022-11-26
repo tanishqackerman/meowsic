@@ -13,12 +13,12 @@ import com.meow.meowsic.viewHolders.HomeViewHolder
 class HomeAdapter(
     val context: Context?,
     val songs: List<Songs>,
-    val itemClickListener: ItemClickListener
+//    val itemClickListener: ItemClickListener
     ) : RecyclerView.Adapter<HomeViewHolder>() {
 
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int, check: Int)
-    }
+//    interface ItemClickListener {
+//        fun onItemClick(view: View?, position: Int, check: Int)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return HomeViewHolder(LayoutInflater.from(context).inflate(R.layout.playlist_item, parent, false))

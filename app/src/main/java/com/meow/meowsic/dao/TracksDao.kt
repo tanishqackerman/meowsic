@@ -1,5 +1,7 @@
 package com.meow.meowsic.dao
 
+import android.content.Context
+import com.android.volley.VolleyError
 import com.meow.meowsic.models.Playlists
 import com.meow.meowsic.models.Songs
 import com.meow.meowsic.utilities.Constants
@@ -8,7 +10,7 @@ import com.meow.meowsic.volley.RequestCallback
 import com.meow.meowsic.volley.VolleyRequest
 import org.json.JSONObject
 
-class TracksDao : VolleyRequest() {
+class TracksDao(val context: Context?) : VolleyRequest(context) {
 
     private val Utilites = Utilities()
     private val Constants = Constants()
@@ -32,13 +34,13 @@ class TracksDao : VolleyRequest() {
                 override fun stringResponse(response: String?) {
 
                 }
-                //fun errorResponse(error: VolleyError?) {
-                //                requestCallback.onObjectRequestSuccessful(
-                //                    null,
-                //                    Constants.SEARCH_SONG_WITH_ID,
-                //                    false
-                //                )
-                //            }
+                override fun errorResponse(error: VolleyError?) {
+                    requestCallback.onObjectRequestSuccessful(
+                        null,
+                        Constants.SEARCH_SONG_WITH_ID,
+                        false
+                    )
+                }
             },
             Constants.METHOD_GET,
             null

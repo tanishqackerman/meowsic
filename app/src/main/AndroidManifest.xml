@@ -12,14 +12,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Meowsic"
+        android:theme="@style/SplashScreen"
         tools:targetApi="31">
         <service
-            android:name=".MusicService"
+            android:name=".services.MusicService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
-            android:name=".ExoPlayerService"
+            android:name=".services.ExoPlayerService"
             android:enabled="true"
             android:exported="true" />
 
