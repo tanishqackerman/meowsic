@@ -22,13 +22,13 @@ class TracksDao(val context: Context?) : VolleyRequest(context) {
             url,
             object : DaoCallback {
                 override fun response(response: Any?) {
-                    val jsonObject = response as JSONObject
-                    val songs = Songs(jsonObject)
-                    requestCallback.onObjectRequestSuccessful(
-                        songs,
-                        Constants.SEARCH_SONG_WITH_ID,
-                        true
-                    )
+//                    val jsonObject = response as JSONObject
+//                    val songs = Songs(jsonObject)
+//                    requestCallback.onObjectRequestSuccessful(
+//                        songs,
+//                        Constants.SEARCH_SONG_WITH_ID,
+//                        true
+//                    )
                 }
 
                 override fun stringResponse(response: String?) {

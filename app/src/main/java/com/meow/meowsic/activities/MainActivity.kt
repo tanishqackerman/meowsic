@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.meow.meowsic.R
 import com.meow.meowsic.databinding.ActivityMainBinding
+import com.meow.meowsic.fragments.AriFragment
 import com.meow.meowsic.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> replaceFragment(HomeFragment())
 //                R.id.search -> replaceFragment(Search())
 //                R.id.library -> replaceFragment(Playlist())
-//                R.id.ari -> replaceFragment(AriFragment())
+                R.id.ari -> replaceFragment(AriFragment())
                 else -> {}
             }
             true

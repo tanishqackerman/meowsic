@@ -32,10 +32,10 @@ class Playlists(playlist: JSONObject) {
         this.likes_count = if (playlist.has("likes_count")) playlist.getInt("likes_count") else 0
         val tracks = if (playlist.has("tracks")) playlist.getJSONArray("tracks") else null
         songs = ArrayList()
-        if (tracks != null) for (i in 0 until tracks.length()) {
-            val song = Songs(tracks.getJSONObject(i))
-            songs.add(song)
-        }
+//        if (tracks != null) for (i in 0 until tracks.length()) {
+//            val song = Songs(tracks.getJSONObject(i))
+//            songs.add(song)
+//        }
     }
 
 

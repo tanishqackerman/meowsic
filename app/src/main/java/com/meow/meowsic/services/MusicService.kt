@@ -103,17 +103,17 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
         mp.start()
         setState(Constants.MUSIC_STARTED)
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                val current: Int = getPosition()
-                viewMusicInterface?.onMusicProgress(current / 100)
-                if (songPosition < playlist.songs.size
-                ) musicServiceInterface?.onMusicProgress(
-                    (current * 10000 / playlist.songs[songPosition].duration).toInt()
-                )
-                handler.postDelayed(this, 100)
-            }
-        }, 100)
+//        handler.postDelayed(object : Runnable {
+//            override fun run() {
+//                val current: Int = getPosition()
+//                viewMusicInterface?.onMusicProgress(current / 100)
+//                if (songPosition < playlist.songs.size
+//                ) musicServiceInterface?.onMusicProgress(
+//                    (current * 10000 / playlist.songs[songPosition].duration).toInt()
+//                )
+//                handler.postDelayed(this, 100)
+//            }
+//        }, 100)
     }
 
     override fun onSeekComplete(p0: MediaPlayer?) {
@@ -137,11 +137,11 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
             viewMusicInterface!!.onSongChanged(songPosition)
         }
         mp.reset()
-        val url: String? = song.streamUrl
+//        val url: String? = song.url
 //        val url: String = song.getStreamUrl() + "?client_id=" + Urls.CLIENT_ID
-        pref.setCurrentPlayingSong(song.id)
+//        pref.setCurrentPlayingSong(song.id)
         try {
-            mp.setDataSource(url)
+//            mp.setDataSource(url)
             mp.prepareAsync()
         } catch (e: IOException) {
             e.printStackTrace()

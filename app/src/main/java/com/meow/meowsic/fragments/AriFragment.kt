@@ -14,7 +14,7 @@ import com.meow.meowsic.databinding.FragmentHomeBinding
 import com.meow.meowsic.models.Songs
 import com.meow.meowsic.volley.RequestCallback
 
-class HomeFragment : Fragment(), RequestCallback {
+class AriFragment : Fragment(), RequestCallback {
 
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var playlistDao: PlaylistDao
@@ -25,7 +25,7 @@ class HomeFragment : Fragment(), RequestCallback {
         super.onCreate(savedInstanceState)
 
         playlistDao = PlaylistDao(context, this)
-        playlistDao.getTracksFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
+        playlistDao.getTracksFromPlaylistId("5K895qMC6qGon4N88EKzm9")
         songs = ArrayList()
     }
 

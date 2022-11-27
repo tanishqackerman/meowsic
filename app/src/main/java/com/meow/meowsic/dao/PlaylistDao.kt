@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.android.volley.VolleyError
 import com.meow.meowsic.models.Playlists
 import com.meow.meowsic.models.Songs
+import com.meow.meowsic.models.trackmodel.Track
 import com.meow.meowsic.utilities.Constants
 import com.meow.meowsic.utilities.Utilities
 import com.meow.meowsic.volley.RequestCallback
@@ -52,8 +53,53 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
         )
     }
 
+//    fun getTracksFromPlaylistId(playlistId: String) {
+//        val url = Utilites.getApiUrlPlaylistId(playlistId)
+//        apiCallObject(
+//            url,
+//            object : DaoCallback {
+//                override fun response(response: Any?) {
+//                    val jsonObject = response as JSONObject
+//                    val songs: ArrayList<Songs> = ArrayList()
+//                    try {
+//                        val jsonArray = jsonObject.getJSONArray("tracks")
+//                        for (i in 0 until jsonArray.length()) {
+//                            val song = Songs(jsonArray.getJSONObject(i))
+//                            songs.add(song)
+//                        }
+//                    } catch (e: JSONException) {
+//                        e.printStackTrace()
+//                        Toast.makeText(context, "hehe", Toast.LENGTH_SHORT).show()
+//                        Log.d("hehe", e.toString())
+//                    }
+//                    requestCallback.onListRequestSuccessful(
+//                        songs,
+//                        Constants.SEARCH_SONG_WITH_PLAYLIST_ID,
+//                        true
+//                    )
+//                }
+//
+//                override fun stringResponse(response: String?) {
+//
+//                }
+//
+//                override fun errorResponse(error: VolleyError?) {
+//                    Toast.makeText(context, "volley error", Toast.LENGTH_SHORT).show()
+//                    requestCallback.onListRequestSuccessful(
+//                        null,
+//                        Constants.SEARCH_SONG_WITH_PLAYLIST_ID,
+//                        false
+//                    )
+//                }
+//
+//            },
+//            Constants.METHOD_GET,
+//            null
+//        )
+//    }
+
     fun getTracksFromPlaylistId(playlistId: String) {
-        val url = Utilites.getApiUrlPlaylistId(playlistId)
+        val url = Utilites.getApiUrlPlaylistId(playlistId) + "/tracks"
         apiCallObject(
             url,
             object : DaoCallback {
@@ -61,15 +107,19 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
                     val jsonObject = response as JSONObject
                     val songs: ArrayList<Songs> = ArrayList()
                     try {
-                        val jsonArray = jsonObject.getJSONArray("tracks")
+                        val jsonArray = jsonObject.getJSONArray("items")
                         for (i in 0 until jsonArray.length()) {
-                            val song = Songs(jsonArray.getJSONObject(i))
+                            val trackobject = jsonArray.getJSONObject(i)
+                            val trackdetails = trackobject.getJSONObject("track")
+                            val albumdetails = trackdetails.getJSONObject("album")
+                            val image = albumdetails.getJSONArray("images").getJSONObject(0).getString("url")
+                            val artist = trackdetails.getJSONArray("artists").getJSONObject(0).getString("name")
+                            val song = Songs(trackdetails["id"].toString(), trackdetails.getLong("duration_ms"), trackdetails["name"].toString(), trackdetails["uri"].toString(), artist, albumdetails.getString("name"), image)
                             songs.add(song)
                         }
-                        Toast.makeText(context, songs.size.toString(), Toast.LENGTH_SHORT).show()
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        Toast.makeText(context, "error", Toast.LENGTH_SHORT).show()
+                        Log.d("hehe", e.toString())
                     }
                     requestCallback.onListRequestSuccessful(
                         songs,
@@ -88,7 +138,6 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
                         Constants.SEARCH_SONG_WITH_PLAYLIST_ID,
                         false
                     )
-                    Toast.makeText(context, "volley error", Toast.LENGTH_SHORT).show()
                 }
 
             },
