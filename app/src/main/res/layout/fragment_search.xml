@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.SearchFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#1A1A31"
+        android:orientation="vertical">
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--            <androidx.appcompat.widget.SearchView-->
+<!--                android:id="@+id/querysearch"-->
+<!--                app:defaultQueryHint="Search"-->
+<!--                app:iconifiedByDefault="false"-->
+<!--                android:background="#1A1A31"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="1px"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <ImageView
+            android:id="@+id/cross"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:focusable="true"
+            android:padding="22dp"
+            android:src="@drawable/cross"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/querysearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/cross"
+            android:background="@android:color/transparent"
+            android:hint="Search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+<!--        </androidx.cardview.widget.CardView>-->
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/search_progressbar"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rlNoSearchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="97dp"
+                android:layout_height="97dp"
+                android:layout_above="@id/tvNoPlaylistMessage"
+                android:layout_centerHorizontal="true"
+                app:tint="@color/white"
+                app:srcCompat="@drawable/search" />
+
+            <TextView
+                android:id="@+id/tvNoPlaylistMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="110dp"
+                android:padding="47dp"
+                android:text="Search Something Above"
+                android:fontFamily="@font/repfont"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+
+            <RelativeLayout
+                android:id="@+id/rlNoSearchResultFound"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="94dp"
+                    android:layout_height="94dp"
+                    android:layout_above="@id/tvNoSearchResultFound"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white"
+                    app:srcCompat="@drawable/sadphone" />
+
+                <TextView
+                    android:id="@+id/tvNoSearchResultFound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="110dp"
+                    android:padding="47dp"
+                    android:text="No search results could be found. Try something else."
+                    android:textAlignment="center"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlNoInternetConnection"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+
+                <ImageView
+                    android:layout_width="97dp"
+                    android:layout_height="97dp"
+                    android:layout_above="@id/tvNoInternetConnection"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white"
+                    app:srcCompat="@drawable/sadphone" />
+
+
+                <TextView
+                    android:id="@+id/tvNoInternetConnection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="110dp"
+                    android:padding="47dp"
+                    android:text="No Internet Connection."
+                    android:textAlignment="center"
+                    android:textSize="17sp"/>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

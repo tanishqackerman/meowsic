@@ -1,6 +1,8 @@
 package com.meow.meowsic.utilities
 
 import com.meow.meowsic.volley.Urls
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 
 class Utilities {
 
@@ -8,11 +10,28 @@ class Utilities {
 
     fun getApiUrlPlaylistId(playlistId: String): String {
         return Urls.PLAYLISTS + "/" + playlistId
-//        return Urls.PLAYLISTS + "/" + playlistId + "?limit=200&client_id=" + Urls.CLIENT_ID
     }
 
     fun getApiUrlTrackId(songId: String): String {
         return Urls.TRACKS + "/" + songId
-//        return Urls.TRACKS + "/" + songId + "?client_id=" + Urls.CLIENT_ID
+    }
+
+    fun getApiUrlTracksQuery(query: String): String {
+        return Urls.SEARCH + "?q=" + query + "&type=track"
+    }
+
+    fun getApiUrlArtistsQuery(query: String): String {
+        return Urls.SEARCH + "?q=" + query + "&type=artist"
+    }
+
+    fun encodeKeyword(word: String): String {
+        var meow = word.replace("[^\\.\\-\\w\\s]".toRegex(), " ")
+        meow = meow.replace("\\s+".toRegex(), " ")
+        try {
+            meow = (URLEncoder.encode(meow, "UTF-8")).replace("+", " ")
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
+        }
+        return meow
     }
 }

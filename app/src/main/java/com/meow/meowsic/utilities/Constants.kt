@@ -17,9 +17,9 @@ open class Constants {
 
     val SEARCH_SONGS_WITH_QUERY = 4
     val SEARCH_SONG_WITH_ID = 5
-    val SEARCH_USERS_WITH_QUERY = 6
-    val SEARCH_USER_WITH_ID = 7
-    val SEARCH_SONGS_WITH_USER_ID = 8
+    val SEARCH_ARTISTS_WITH_QUERY = 6
+    val SEARCH_ARTIST_WITH_ID = 7
+    val SEARCH_ARTISTS_WITH_USER_ID = 8
 
     val TYPE_TRACK = 11
     val TYPE_USER = 12

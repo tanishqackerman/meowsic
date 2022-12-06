@@ -30,9 +30,9 @@ class SharedPreference(context: Context) {
     }
 
     @SuppressLint("CommitPrefEdits")
-    fun setCurrentPlayingSong(songId: Long) {
+    fun setCurrentPlayingSong(songId: String?) {
         val editor: SharedPreferences.Editor = pref.edit()
-        editor.putLong(CURRENT_PLAYING_SONG_ID, songId)
+        editor.putString(CURRENT_PLAYING_SONG_ID, songId)
         editor.apply()
     }
 

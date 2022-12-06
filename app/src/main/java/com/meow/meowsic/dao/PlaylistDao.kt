@@ -24,8 +24,8 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
         this.requestCallback = requestCallback
     }
 
-    fun getPlaylistFromPlaylistId(playlistId: Long) {
-        val url = Utilites.getApiUrlPlaylistId(playlistId.toString())
+    fun getPlaylistFromPlaylistId(playlistId: String) {
+        val url = Utilites.getApiUrlPlaylistId(playlistId)
         apiCallObject(url,
             object : DaoCallback {
                 override fun response(response: Any?) {
@@ -107,14 +107,9 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
                     val jsonObject = response as JSONObject
                     val songs: ArrayList<Songs> = ArrayList()
                     try {
-                        val jsonArray = jsonObject.getJSONArray("items")
+                        val jsonArray = jsonObject.getJSONArray("tracks")
                         for (i in 0 until jsonArray.length()) {
-                            val trackobject = jsonArray.getJSONObject(i)
-                            val trackdetails = trackobject.getJSONObject("track")
-                            val albumdetails = trackdetails.getJSONObject("album")
-                            val image = albumdetails.getJSONArray("images").getJSONObject(0).getString("url")
-                            val artist = trackdetails.getJSONArray("artists").getJSONObject(0).getString("name")
-                            val song = Songs(trackdetails["id"].toString(), trackdetails.getLong("duration_ms"), trackdetails["name"].toString(), trackdetails["uri"].toString(), artist, albumdetails.getString("name"), image)
+                            val song = Songs(jsonArray.getJSONObject(i))
                             songs.add(song)
                         }
                     } catch (e: JSONException) {

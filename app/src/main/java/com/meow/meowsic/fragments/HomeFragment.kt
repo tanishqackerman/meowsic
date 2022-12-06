@@ -11,6 +11,7 @@ import com.meow.meowsic.R
 import com.meow.meowsic.adapters.HomeAdapter
 import com.meow.meowsic.dao.PlaylistDao
 import com.meow.meowsic.databinding.FragmentHomeBinding
+import com.meow.meowsic.models.Playlists
 import com.meow.meowsic.models.Songs
 import com.meow.meowsic.volley.RequestCallback
 
@@ -25,7 +26,7 @@ class HomeFragment : Fragment(), RequestCallback {
         super.onCreate(savedInstanceState)
 
         playlistDao = PlaylistDao(context, this)
-        playlistDao.getTracksFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
+        playlistDao.getPlaylistFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
         songs = ArrayList()
     }
 
@@ -39,16 +40,16 @@ class HomeFragment : Fragment(), RequestCallback {
         return view
     }
 
-    override fun onListRequestSuccessful(list: ArrayList<Songs>?, check: Int, status: Boolean) {
-        if (list != null) songs.addAll(list)
-        homeAdapter = HomeAdapter(context, songs)
+    override fun onListRequestSuccessful(list: ArrayList<Any>?, check: Int, status: Boolean) {
+
+    }
+
+    override fun onObjectRequestSuccessful(`object`: Any?, check: Int, status: Boolean) {
+        val playlists: Playlists = `object` as Playlists
+        songs = playlists.songs
+        homeAdapter = HomeAdapter(context, playlists)
         binding.homerv.layoutManager = GridLayoutManager(context, 1)
         binding.homerv.setHasFixedSize(true)
         binding.homerv.adapter = homeAdapter
     }
-
-    override fun onObjectRequestSuccessful(`object`: Any?, check: Int, status: Boolean) {
-
-    }
-
 }
