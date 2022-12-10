@@ -1,17 +1,13 @@
 package com.meow.meowsic.volley
 
 import android.content.Context
-import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.meow.meowsic.dao.DaoCallback
 import com.meow.meowsic.utilities.Constants
-import org.json.JSONException
 import org.json.JSONObject
-import retrofit2.http.Url
 
 
 open class VolleyRequest(val contexthehe: Context?) {
@@ -20,7 +16,7 @@ open class VolleyRequest(val contexthehe: Context?) {
     private var Constants = Constants()
     private var Urls = Urls()
 
-    fun apiCallArray(url: String, daoCallback: DaoCallback, method: Int, jsonObject: JSONObject) {
+    fun apiCallArray(url: String, daoCallback: DaoCallback, method: Int, jsonObject: JSONObject?) {
         if (method == Constants.METHOD_GET) {
             val jsonArrayRequest = JsonArrayRequest (
                 Request.Method.GET,
@@ -47,7 +43,7 @@ open class VolleyRequest(val contexthehe: Context?) {
             ) {
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
-                    headers["Authorization"] = "Bearer BQAN7HIfAXX_mnR8m8F06_psUEkpNFuOb8X1K9EvD3n-qZM8UMBrkqMAIhhornmahpX4U_n1_zgBaK_rEYcLK0_osA812tYK9cmPiX8at-GaOaiFGH9uU08zpEofiVq_UhrfzT9MLDpC1nYqYumJ8j7sKmlny3cUoG7TPhbC1lAMKysPcncZab0zjRoI8c0upaA5dpk28rb0wzvkHbHb47kfzrbaVQclyJmWG5oxOHBS2LHXyWMa4lLJLneZZnjrjXpisRVraQboag"
+                    headers["Authorization"] = "Bearer BQAX12wiKp459OdDlqr_a82oeedakjNPMqSsLSTSnf1CVmNFylwjcli0gb22lfcl5H8hsWHmuItI-dJQyvc_JZThPqSrTzQguy7iOWPEMIUky8Tux3Mlk8qy880ONdzBBqBW2LR3T7WXgglnnY9gIIpIDGZlsQ37FCF1WCi_UtFaX4NyqcGEToVLbKZrpkXaIjbuBnln2avcS_aId92c7ksxOBkbU_XnHbsvuSR93Rsr6J1AzqIsKmDKnd938iXHhbdXFnISnV95eA"
                     return headers
                 }
             }

@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.meow.meowsic.models.Playlists
 
-class SharedPreference(context: Context) {
+class SharedPreference(context: Context?) {
 
     private val CURRENT_PLAYING_SONG_ID = "currentPlayingSongId"
     private val CURRENT_PLAYLIST = "currentSongList"
@@ -22,11 +22,11 @@ class SharedPreference(context: Context) {
     private lateinit var pref: SharedPreferences
 
     init {
-        pref = context.getSharedPreferences("meowsic", PRIVATE_MODE)
+        pref = context?.getSharedPreferences("meowsic", PRIVATE_MODE)!!
     }
 
-    fun getCurrentPlayingSong(): Long {
-        return pref.getLong(CURRENT_PLAYING_SONG_ID, 0)
+    fun getCurrentPlayingSong(): String? {
+        return pref.getString(CURRENT_PLAYING_SONG_ID, 0.toString())
     }
 
     @SuppressLint("CommitPrefEdits")

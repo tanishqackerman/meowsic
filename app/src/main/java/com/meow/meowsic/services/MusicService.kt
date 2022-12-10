@@ -52,7 +52,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         pref = SharedPreference(context)
         playlist = pref.getCurrentPlaylist()
         state = -1
-        songs = playlist.songs
+        songs = playlist.songs!!
         songPosition = pref.getCurrentPlayingSongPosition()
 //        shuffleSongList = pref.getc
         audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -97,7 +97,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         pref = SharedPreference(context)
         playlist = pref.getCurrentPlaylist()
         state = -1
-        songs = playlist.songs
+        songs = playlist.songs!!
         songPosition = pref.getCurrentPlayingSongPosition()
 //        shuffleSongList = pref.getc
         audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -111,7 +111,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 
     override fun onCompletion(p0: MediaPlayer?) {
         if (mp.currentPosition > 0) {
-            if (songPosition != playlist.songs.size - 1) mp.reset()
+            if (songPosition != playlist.songs?.size!! - 1) mp.reset()
             playNext()
         }
     }
@@ -129,7 +129,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
             override fun run() {
                 val current: Int = getPosition()
                 viewMusicInterface?.onMusicProgress(current / 100)
-                if (songPosition < playlist.songs.size) musicServiceInterface?.onMusicProgress((current * 10000 / playlist.songs[songPosition].duration).toInt())
+                if (songPosition < playlist.songs?.size!!) musicServiceInterface?.onMusicProgress((current * 10000 / playlist.songs!![songPosition].duration).toInt())
                 handler.postDelayed(this, 100)
             }
         }, 100)
@@ -148,7 +148,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
     }
 
     fun startSong() {
-        val song: Songs = playlist.songs[songPosition]
+        val song: Songs = playlist.songs?.get(songPosition)!!
 //        showNotification(song)
         setState(Constants.MUSIC_LOADED)
         musicServiceInterface!!.onSongChanged(songPosition)
@@ -222,7 +222,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 //            songPosition = FisherYatesShuffle.getPreviousShufflePosition(context)
         } else {
             if (songPosition == 0) {
-                if (pref.getIsRepeatOn()) songPosition = playlist.songs.size - 1 else {
+                if (pref.getIsRepeatOn()) songPosition = playlist.songs?.size!! - 1 else {
                     setState(Constants.MUSIC_ENDED)
 //                    notificationGenerator.updateView(false, songPosition)
                 }
@@ -238,7 +238,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         if (pref.getIsShuffleOn()) {
 //            songPosition = FisherYatesShuffle.getNextShufflePosition(context)
         } else {
-            if (songPosition == playlist.songs.size - 1) {
+            if (songPosition == playlist.songs?.size!! - 1) {
                 if (pref.getIsRepeatOn()) songPosition = 0 else {
                     setState(Constants.MUSIC_ENDED)
 //                    notificationGenerator.updateView(false, songPosition)
@@ -267,9 +267,9 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 
     private fun setState(state: Int) {
         this.state = state
-        musicServiceInterface!!.onMusicDisturbed(state, playlist.songs[songPosition])
+        musicServiceInterface!!.onMusicDisturbed(state, playlist.songs?.get(songPosition))
         if (viewMusicInterface != null) {
-            viewMusicInterface!!.onMusicDisturbed(state, playlist.songs[songPosition])
+            viewMusicInterface!!.onMusicDisturbed(state, playlist.songs?.get(songPosition))
         }
     }
 

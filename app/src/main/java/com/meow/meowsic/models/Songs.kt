@@ -17,12 +17,12 @@ class Songs(song: JSONObject) {
     var isNormal: Boolean = false
 
     init {
-        this.id = song.getJSONObject("track").getString("id")
-        this.duration = song.getJSONObject("track").getLong("duration_ms")
-        this.name = song.getJSONObject("track").getString("name").trim()
-        this.url = song.getJSONObject("track").getString("uri")
-        this.songArtwork = song.getJSONObject("track").getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url")
-        this.album = song.getJSONObject("track").getJSONObject("album").getString("name")
-        this.artist = song.getJSONObject("track").getJSONArray("artists").getJSONObject(0).getString("name")
+        this.id = song.getString("id")
+        this.duration = song.getLong("duration_ms")
+        this.name = song.getString("name").trim()
+        this.url = song.getString("uri")
+        this.songArtwork = song.getJSONObject("album").getJSONArray("images").getJSONObject(0).getString("url")
+        this.album = song.getJSONObject("album").getString("name")
+        this.artist = song.getJSONArray("artists").getJSONObject(0).getString("name")
     }
 }

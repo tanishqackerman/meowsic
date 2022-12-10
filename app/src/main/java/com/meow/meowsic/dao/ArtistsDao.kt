@@ -1,6 +1,8 @@
 package com.meow.meowsic.dao
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import com.android.volley.VolleyError
 import com.meow.meowsic.models.Artists
 import com.meow.meowsic.models.Songs
@@ -11,11 +13,15 @@ import com.meow.meowsic.volley.VolleyRequest
 import org.json.JSONException
 import org.json.JSONObject
 
-class ArtistsDao(context: Context?) : VolleyRequest(context) {
+class ArtistsDao(context: Context?, requestCallback: RequestCallback) : VolleyRequest(context) {
 
     private val Utilities = Utilities()
     private val Constants = Constants()
-    private lateinit var requestCallback: RequestCallback
+    private var requestCallback: RequestCallback
+
+    init {
+        this.requestCallback = requestCallback
+    }
 
     fun getArtistFromQuery(q: String) {
         val query = Utilities.encodeKeyword(q)
@@ -27,7 +33,7 @@ class ArtistsDao(context: Context?) : VolleyRequest(context) {
                     val jsonObject = response as JSONObject
                     val artists: ArrayList<Artists> = ArrayList()
                     try {
-                        val jsonArray = jsonObject.getJSONArray("artists")
+                        val jsonArray = jsonObject.getJSONObject("artists").getJSONArray("items")
                         for (i in 0 until jsonArray.length()) {
                             val artist = Artists(jsonArray.getJSONObject(i))
                             artists.add(artist)
@@ -35,7 +41,7 @@ class ArtistsDao(context: Context?) : VolleyRequest(context) {
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
-                    requestCallback.onListRequestSuccessful(
+                    requestCallback.onRequestSuccessful(
                         artists,
                         Constants.SEARCH_ARTISTS_WITH_QUERY,
                         true
@@ -47,7 +53,7 @@ class ArtistsDao(context: Context?) : VolleyRequest(context) {
                 }
 
                 override fun errorResponse(error: VolleyError?) {
-                    requestCallback.onObjectRequestSuccessful(
+                    requestCallback.onRequestSuccessful(
                         null,
                         Constants.SEARCH_ARTISTS_WITH_QUERY,
                         false

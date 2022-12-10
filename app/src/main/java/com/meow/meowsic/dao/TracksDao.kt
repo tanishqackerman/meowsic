@@ -12,11 +12,15 @@ import com.meow.meowsic.volley.VolleyRequest
 import org.json.JSONException
 import org.json.JSONObject
 
-class TracksDao(val context: Context?) : VolleyRequest(context) {
+class TracksDao(val context: Context?, requestCallback: RequestCallback) : VolleyRequest(context) {
 
     private val Utilities = Utilities()
     private val Constants = Constants()
-    private lateinit var requestCallback: RequestCallback
+    private var requestCallback: RequestCallback
+
+    init {
+        this.requestCallback = requestCallback
+    }
 
     fun getTrackFromId(songId: Long) {
         val url = Utilities.getApiUrlTrackId(songId.toString())
@@ -37,7 +41,7 @@ class TracksDao(val context: Context?) : VolleyRequest(context) {
 
                 }
                 override fun errorResponse(error: VolleyError?) {
-                    requestCallback.onObjectRequestSuccessful(
+                    requestCallback.onRequestSuccessful(
                         null,
                         Constants.SEARCH_SONG_WITH_ID,
                         false
@@ -59,15 +63,16 @@ class TracksDao(val context: Context?) : VolleyRequest(context) {
                     val jsonObject = response as JSONObject
                     val songs: ArrayList<Songs> = ArrayList()
                     try {
-                        val jsonArray = jsonObject.getJSONArray("tracks")
+                        val jsonArray = jsonObject.getJSONObject("tracks").getJSONArray("items")
                         for (i in 0 until jsonArray.length()) {
                             val song = Songs(jsonArray.getJSONObject(i))
                             songs.add(song)
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        Log.d("hehe", e.toString())
                     }
-                    requestCallback.onListRequestSuccessful(
+                    requestCallback.onRequestSuccessful(
                         songs,
                         Constants.SEARCH_SONGS_WITH_QUERY,
                         true
@@ -79,7 +84,7 @@ class TracksDao(val context: Context?) : VolleyRequest(context) {
                 }
 
                 override fun errorResponse(error: VolleyError?) {
-                    requestCallback.onObjectRequestSuccessful(
+                    requestCallback.onRequestSuccessful(
                         null,
                         Constants.SEARCH_SONGS_WITH_QUERY,
                         false

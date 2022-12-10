@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.meow.meowsic.R
-import com.meow.meowsic.adapters.HomeAdapter
+import com.meow.meowsic.adapters.EachSongAdapter
 import com.meow.meowsic.dao.PlaylistDao
 import com.meow.meowsic.databinding.FragmentHomeBinding
 import com.meow.meowsic.models.Playlists
@@ -17,7 +16,7 @@ import com.meow.meowsic.volley.RequestCallback
 
 class HomeFragment : Fragment(), RequestCallback {
 
-    private lateinit var homeAdapter: HomeAdapter
+    private lateinit var homeAdapter: EachSongAdapter
     private lateinit var playlistDao: PlaylistDao
     private lateinit var songs: ArrayList<Songs>
     private lateinit var binding: FragmentHomeBinding
@@ -40,14 +39,14 @@ class HomeFragment : Fragment(), RequestCallback {
         return view
     }
 
-    override fun onListRequestSuccessful(list: ArrayList<Any>?, check: Int, status: Boolean) {
+//    override fun onListRequestSuccessful(list: ArrayList<Any>?, check: Int, status: Boolean) {
+//
+//    }
 
-    }
-
-    override fun onObjectRequestSuccessful(`object`: Any?, check: Int, status: Boolean) {
+    override fun onRequestSuccessful(`object`: Any?, check: Int, status: Boolean) {
         val playlists: Playlists = `object` as Playlists
-        songs = playlists.songs
-        homeAdapter = HomeAdapter(context, playlists)
+        songs = playlists.songs!!
+        homeAdapter = EachSongAdapter(context, playlists)
         binding.homerv.layoutManager = GridLayoutManager(context, 1)
         binding.homerv.setHasFixedSize(true)
         binding.homerv.adapter = homeAdapter

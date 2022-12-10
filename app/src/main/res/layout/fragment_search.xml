@@ -44,7 +44,7 @@
             android:src="@drawable/cross"
             app:tint="@color/white" />
 
-        <TextView
+        <EditText
             android:id="@+id/querysearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -69,7 +69,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchrv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:paddingBottom="70dp"/>
 
         <ProgressBar
             android:id="@+id/search_progressbar"
@@ -85,10 +86,11 @@
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="97dp"
-                android:layout_height="97dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_above="@id/tvNoPlaylistMessage"
                 android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 app:tint="@color/white"
                 app:srcCompat="@drawable/search" />
 
@@ -100,66 +102,70 @@
                 android:layout_marginBottom="110dp"
                 android:padding="47dp"
                 android:text="Search Something Above"
-                android:fontFamily="@font/repfont"
+                android:textAlignment="center"
+                android:layout_centerInParent="true"
+                android:textSize="17sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlNoSearchResultFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_above="@id/tvNoSearchResultFound"
+                android:layout_centerHorizontal="true"
+                app:tint="@color/white"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/sadphone" />
+
+            <TextView
+                android:id="@+id/tvNoSearchResultFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="110dp"
+                android:padding="47dp"
+                android:layout_centerInParent="true"
+                android:text="No search results could be found. Try something else."
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
-            <RelativeLayout
-                android:id="@+id/rlNoSearchResultFound"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+        </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="94dp"
-                    android:layout_height="94dp"
-                    android:layout_above="@id/tvNoSearchResultFound"
-                    android:layout_centerHorizontal="true"
-                    app:tint="@color/white"
-                    app:srcCompat="@drawable/sadphone" />
-
-                <TextView
-                    android:id="@+id/tvNoSearchResultFound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="110dp"
-                    android:padding="47dp"
-                    android:text="No search results could be found. Try something else."
-                    android:textAlignment="center"
-                    android:textSize="17sp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlNoInternetConnection"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/rlNoInternetConnection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
 
-                <ImageView
-                    android:layout_width="97dp"
-                    android:layout_height="97dp"
-                    android:layout_above="@id/tvNoInternetConnection"
-                    android:layout_centerHorizontal="true"
-                    app:tint="@color/white"
-                    app:srcCompat="@drawable/sadphone" />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_above="@id/tvNoInternetConnection"
+                android:layout_centerHorizontal="true"
+                app:tint="@color/white"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/sadphone" />
 
 
-                <TextView
-                    android:id="@+id/tvNoInternetConnection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="110dp"
-                    android:padding="47dp"
-                    android:text="No Internet Connection."
-                    android:textAlignment="center"
-                    android:textSize="17sp"/>
+            <TextView
+                android:id="@+id/tvNoInternetConnection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="110dp"
+                android:padding="47dp"
+                android:text="No Internet Connection."
+                android:layout_centerInParent="true"
+                android:textAlignment="center"
+                android:textSize="17sp"/>
 
-
-            </RelativeLayout>
 
         </RelativeLayout>
 

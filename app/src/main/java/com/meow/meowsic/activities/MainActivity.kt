@@ -80,26 +80,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun playSongInMainActivity(songPosition: Int, playlist: Playlists) {
-        if (playlist.songs.isEmpty()) {
+        if (playlist.songs?.isEmpty() == true) {
             Toast.makeText(context, "Unable to play this Playlist.", Toast.LENGTH_SHORT).show()
             return
         }
-        val song: Songs = playlist.songs[songPosition]
+        val song: Songs? = playlist.songs?.get(songPosition)
         currentSongPosition = songPosition
-        pref.setCurrentPlayingSong(song.id)
+        pref.setCurrentPlayingSong(song?.id)
         pref.setCurrentPlaylist(playlist)
         pref.setCurrentPlayingSongPosition(songPosition)
-        binding.songname.text = song.name
+        binding.songname.text = song?.name
         currentPlaylist = playlist
         val shuffleList = ArrayList<Int>()
-        for (i in 0 until playlist.songs.size) shuffleList.add(i)
+        for (i in 0 until playlist.songs?.size!!) shuffleList.add(i)
 //        pref.setCurrentPlaylistShuffleArray(shuffleList)
 //        pref.setCurrentShuffleSongPosition(0)
 //        FisherYatesShuffle.updateShuffleList(context, songPosition)
-        val url: String? = song.url
+        val url: String? = song?.url
 
         musicSrv.setSongPosition(songPosition);
-        musicSrv.setSongs(playlist.songs);
+        musicSrv.setSongs(playlist.songs!!);
         musicSrv.setPlaylist(playlist);
         musicSrv.startSong();
     }
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 //        playlistDao.getPlaylistFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
         currentPlaylist = pref.getCurrentPlaylist()
         currentSongPosition = pref.getCurrentPlayingSongPosition()
-        val currentSong: Songs = currentPlaylist.songs[currentSongPosition]
+        val currentSong: Songs = currentPlaylist.songs?.get(currentSongPosition)!!
         binding.songname.text = currentSong.name
         binding.artistname.text = currentSong.artist
         Glide.with(context)
