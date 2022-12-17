@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.SeeAllFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homerv"
+        android:id="@+id/seeallrv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior"
-        android:paddingBottom="60dp"/>
+        android:paddingBottom="70dp"/>
 
 </FrameLayout>

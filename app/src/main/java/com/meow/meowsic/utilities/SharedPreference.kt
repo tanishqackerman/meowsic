@@ -56,10 +56,10 @@ class SharedPreference(context: Context?) {
         editor.apply()
     }
 
-    fun getCurrentPlaylist(): Playlists {
+    fun getCurrentPlaylist(): Playlists? {
         val playlistJson = pref.getString(CURRENT_PLAYLIST, null)
         val gson = Gson()
-        return gson.fromJson(playlistJson, Playlists::class.java)
+        return if (playlistJson != null) gson.fromJson(playlistJson, Playlists::class.java) else null
     }
 
     fun setCurrentPlaylist(playlist: Playlists) {

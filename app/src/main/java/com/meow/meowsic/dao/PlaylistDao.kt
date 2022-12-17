@@ -24,7 +24,7 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
         this.requestCallback = requestCallback
     }
 
-    fun getPlaylistFromPlaylistId(playlistId: String) {
+    fun getPlaylistFromPlaylistId(playlistId: String?) {
         val url = Utilites.getApiUrlPlaylistId(playlistId)
         apiCallObject(url,
             object : DaoCallback {

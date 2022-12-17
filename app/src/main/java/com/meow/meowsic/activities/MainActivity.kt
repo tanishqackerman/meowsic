@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,7 @@ import com.meow.meowsic.utilities.Constants
 import com.meow.meowsic.utilities.SharedPreference
 import com.meow.meowsic.volley.RequestCallback
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RequestCallback {
 
     private val Constants = Constants()
     private lateinit var binding: ActivityMainBinding
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pref: SharedPreference
     private lateinit var context: Context
     private lateinit var playlistDao: PlaylistDao
-//    private val progressView: View? = null
+    private lateinit var playIntent: Intent
 
     private val musicConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -57,8 +56,9 @@ class MainActivity : AppCompatActivity() {
                         Constants.MUSIC_PAUSED -> binding.bottomplaypause.setImageDrawable(resources.getDrawable(R.drawable.play))
                         Constants.MUSIC_ENDED -> binding.bottomplaypause.setImageDrawable(resources.getDrawable(R.drawable.play))
                         Constants.MUSIC_LOADED -> {
-                            binding.bottomplaypause.isClickable = false
                             binding.songname.text = song?.name
+                            binding.artistname.text = song?.artist
+                            Glide.with(context).load(song?.songArtwork).into(binding.albumcover)
                             binding.bottomplaypause.setImageDrawable(resources.getDrawable(R.drawable.pause))
                         }
                     }
@@ -79,29 +79,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun playSongInMainActivity(songPosition: Int, playlist: Playlists) {
-        if (playlist.songs?.isEmpty() == true) {
+    fun playSongInMainActivity(songPosition: Int, playlist: Playlists, searchcheck: Boolean) {
+        if (!searchcheck) binding.bottomplayer.isClickable = false
+        if (playlist.songs.isEmpty()) {
             Toast.makeText(context, "Unable to play this Playlist.", Toast.LENGTH_SHORT).show()
             return
         }
-        val song: Songs? = playlist.songs?.get(songPosition)
+        val song: Songs = playlist.songs[songPosition]
         currentSongPosition = songPosition
-        pref.setCurrentPlayingSong(song?.id)
+        pref.setCurrentPlayingSong(song.id)
         pref.setCurrentPlaylist(playlist)
+        Toast.makeText(this, playlist.id.toString(), Toast.LENGTH_SHORT).show()
         pref.setCurrentPlayingSongPosition(songPosition)
-        binding.songname.text = song?.name
+        binding.songname.text = song.name
         currentPlaylist = playlist
-        val shuffleList = ArrayList<Int>()
-        for (i in 0 until playlist.songs?.size!!) shuffleList.add(i)
-//        pref.setCurrentPlaylistShuffleArray(shuffleList)
-//        pref.setCurrentShuffleSongPosition(0)
-//        FisherYatesShuffle.updateShuffleList(context, songPosition)
-        val url: String? = song?.url
+        val url: String? = song.url
 
-        musicSrv.setSongPosition(songPosition);
-        musicSrv.setSongs(playlist.songs!!);
-        musicSrv.setPlaylist(playlist);
-        musicSrv.startSong();
+        musicSrv.setSongPosition(songPosition)
+        musicSrv.setSongs(playlist.songs)
+        musicSrv.setPlaylist(playlist)
+        musicSrv.startSong()
     }
 
     fun updatePlaylistInMainActivity(playlist: Playlists) {
@@ -119,59 +116,60 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(HomeFragment())
         context = this
 
-        initialiseListeners()
-        bottomNavigation()
+        playIntent = Intent(baseContext, MusicService::class.java)
+        bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE)
+        startService(playIntent)
 
         pref = SharedPreference(context)
-//        playlistDao = PlaylistDao(context, this)
-//        playlistDao.getPlaylistFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
-        currentPlaylist = pref.getCurrentPlaylist()
+        playlistDao = PlaylistDao(context, this)
+        playlistDao.getPlaylistFromPlaylistId("37i9dQZF1DXcBWIGoYBM5M")
+        currentPlaylist = pref.getCurrentPlaylist()!!
         currentSongPosition = pref.getCurrentPlayingSongPosition()
-        val currentSong: Songs = currentPlaylist.songs?.get(currentSongPosition)!!
+        val currentSong: Songs = currentPlaylist.songs[currentSongPosition]
         binding.songname.text = currentSong.name
         binding.artistname.text = currentSong.artist
         Glide.with(context)
             .load(currentSong.songArtwork)
             .into(binding.albumcover)
+
+        initialiseListeners()
+        bottomNavigation()
     }
 
     private fun initialiseListeners() {
-        binding.bottomplaypause.setOnClickListener(View.OnClickListener {
-            currentPlaylist = pref.getCurrentPlaylist()
+        binding.bottomplaypause.setOnClickListener {
+            currentPlaylist = pref.getCurrentPlaylist()!!
             musicSrv.setPlaylist(currentPlaylist)
             if (musicSrv.isPlaying()) {
                 musicSrv.pausePlayer()
             } else {
                 musicSrv.go()
             }
-        })
+        }
 
-        binding.bottomnext.setOnClickListener(View.OnClickListener {
-            currentPlaylist = pref.getCurrentPlaylist()
+        binding.bottomnext.setOnClickListener {
+            currentPlaylist = pref.getCurrentPlaylist()!!
             musicSrv.setPlaylist(currentPlaylist)
             musicSrv.playNext()
-        })
+        }
 
-//        ivFullView.setOnClickListener(View.OnClickListener {
-//            if (currentPlaylist != null) {
-//                val intent = Intent(context, ViewSongActivity::class.java)
-//                intent.putExtra(Constants.PLAYLIST_MODEL_KEY, currentPlaylist)
-//                intent.putExtra(Constants.CURRENT_PLAYING_SONG_POSITION, currentSongPosition)
-//                intent.putExtra(Constants.IS_PLAYING, MainActivity.musicSrv.isPlaying())
-//                context.startActivity(intent)
-//            }
-//        })
+        binding.bottomprev.setOnClickListener {
+            currentPlaylist = pref.getCurrentPlaylist()!!
+            musicSrv.setPlaylist(currentPlaylist)
+            musicSrv.playPrev()
+        }
 
-        binding.bottomplayer.setOnClickListener(View.OnClickListener {
+        binding.bottomplayer.setOnClickListener {
             val intent = Intent(context, SongPlayerActivity::class.java)
-//            intent.putExtra(Constants.PLAYLIST_MODEL_KEY, currentPlaylist)
-//            intent.putExtra(Constants.CURRENT_PLAYING_SONG_POSITION, currentSongPosition)
+            intent.putExtra(Constants.PLAYLIST_MODEL_KEY, currentPlaylist)
+            intent.putExtra(Constants.CURRENT_PLAYING_SONG_POSITION, currentSongPosition)
+//            intent.putExtra(Constants.SONGS_MODEL_KEY, currentPlaylist.songs)
 //            intent.putExtra(
 //                Constants.IS_PLAYING,
 //                musicSrv.isPlaying()
 //            )
             startActivity(intent)
-        })
+        }
     }
 
     private fun bottomNavigation() {
@@ -192,5 +190,17 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onRequestSuccessful(`object`: Any?, check: Int, status: Boolean) {
+        val playlists: Playlists = `object` as Playlists
+        pref.setCurrentPlaylist(playlists)
+        currentPlaylist = playlists
+    }
+
+    override fun onStop() {
+        super.onStop()
+        pref.setCurrentPlayingSong(currentPlaylist.songs[currentSongPosition].id)
+        pref.setCurrentPlayingSongPosition(musicSrv.getSongPosition())
     }
 }

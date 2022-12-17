@@ -1,12 +1,15 @@
 package com.meow.meowsic.volley
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.meow.meowsic.dao.DaoCallback
 import com.meow.meowsic.utilities.Constants
+import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -37,13 +40,13 @@ open class VolleyRequest(val contexthehe: Context?) {
                 null,
                 Response.Listener<JSONObject> { response -> daoCallback.response(response) },
                 Response.ErrorListener { error ->
-//                    refreshAccessToken(url)
+                    if (error.networkResponse.statusCode == 401) refreshAccessToken(url)
                     daoCallback.errorResponse(error)
                 }
             ) {
                 override fun getHeaders(): MutableMap<String, String> {
                     val headers = HashMap<String, String>()
-                    headers["Authorization"] = "Bearer BQAX12wiKp459OdDlqr_a82oeedakjNPMqSsLSTSnf1CVmNFylwjcli0gb22lfcl5H8hsWHmuItI-dJQyvc_JZThPqSrTzQguy7iOWPEMIUky8Tux3Mlk8qy880ONdzBBqBW2LR3T7WXgglnnY9gIIpIDGZlsQ37FCF1WCi_UtFaX4NyqcGEToVLbKZrpkXaIjbuBnln2avcS_aId92c7ksxOBkbU_XnHbsvuSR93Rsr6J1AzqIsKmDKnd938iXHhbdXFnISnV95eA"
+                    headers["Authorization"] = "Bearer " + Urls.ACCESS_TOKEN
                     return headers
                 }
             }
@@ -51,27 +54,28 @@ open class VolleyRequest(val contexthehe: Context?) {
         }
     }
 
-//    fun refreshAccessToken(url: String) {
-//        val params = JSONObject()
-//        try {
-//            params.put("client_id", Urls.CLIENT_ID)
-//            params.put("client_secret", Urls.CLIENT_SECRET)
-//            params.put("refresh_token", Urls.REFRESH_TOKEN)
-//            params.put("grant_type", "refresh_token")
-//        } catch (ignored: JSONException) {
-//            // never thrown in this case
-//        }
-//        val refreshTokenRequest = JsonObjectRequest(
-//            Request.Method.POST, url, params,
-//            { response ->
-//                try {
-//                    val accessToken = response.getString("access_token")
-//                } catch (e: JSONException) {
-//                    // this will never happen but if so, show error to user.
-//                }
-//            }
-//        ) { _ ->
-//            Toast.makeText(contexthehe, "token error", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    fun refreshAccessToken(url: String) {
+        val params = JSONObject()
+        try {
+            params.put("client_id", Urls.CLIENT_ID)
+            params.put("client_secret", Urls.CLIENT_SECRET)
+            params.put("refresh_token", Urls.REFRESH_TOKEN)
+            params.put("grant_type", "refresh_token")
+        } catch (ignored: JSONException) {
+            // never thrown in this case
+        }
+        val refreshTokenRequest = JsonObjectRequest(
+            Request.Method.POST, url, params,
+            { response ->
+                try {
+                    val accessToken = response.getString("access_token")
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        ) { e ->
+            Log.d("hehe", String(e.networkResponse.data))
+        }
+        VolleySingleton.getInstance(contexthehe)?.addToRequestQueue(refreshTokenRequest)
+    }
 }

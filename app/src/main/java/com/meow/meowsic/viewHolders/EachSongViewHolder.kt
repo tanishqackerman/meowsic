@@ -1,5 +1,6 @@
 package com.meow.meowsic.viewHolders
 
+import android.provider.ContactsContract.CommonDataKinds.Im
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,4 +13,5 @@ class EachSongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val songname: TextView = itemView.findViewById(R.id.songname)
     val albumcover: ImageView = itemView.findViewById(R.id.albumcover)
     val artistname: TextView = itemView.findViewById(R.id.artistname)
+    val options: ImageView = itemView.findViewById(R.id.options)
 }

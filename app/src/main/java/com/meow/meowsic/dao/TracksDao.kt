@@ -22,19 +22,19 @@ class TracksDao(val context: Context?, requestCallback: RequestCallback) : Volle
         this.requestCallback = requestCallback
     }
 
-    fun getTrackFromId(songId: Long) {
+    fun getTrackFromId(songId: String?) {
         val url = Utilities.getApiUrlTrackId(songId.toString())
         apiCallObject(
             url,
             object : DaoCallback {
                 override fun response(response: Any?) {
-//                    val jsonObject = response as JSONObject
-//                    val songs = Songs(jsonObject)
-//                    requestCallback.onObjectRequestSuccessful(
-//                        songs,
-//                        Constants.SEARCH_SONG_WITH_ID,
-//                        true
-//                    )
+                    val jsonObject = response as JSONObject
+                    val songs = Songs(jsonObject)
+                    requestCallback.onRequestSuccessful(
+                        songs,
+                        Constants.SEARCH_SONG_WITH_ID,
+                        true
+                    )
                 }
 
                 override fun stringResponse(response: String?) {

@@ -32,7 +32,7 @@ class ExoPlayerService : Service() {
 
         context = this
         pref = SharedPreference(context)
-        currentPlaylist = pref.getCurrentPlaylist()
+        currentPlaylist = pref.getCurrentPlaylist()!!
         currentPosition = pref.getCurrentPlayingSongPosition()
 
 //        val concatenatingMediaSource: ConcatenatingMediaSource = ConcatenatingMediaSource()

@@ -11,4 +11,5 @@ class EachPlaylistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     val playlistcard: CardView = itemView.findViewById(R.id.playlistcard)
     val playlistname: TextView = itemView.findViewById(R.id.playlistname)
     val albumcover: ImageView = itemView.findViewById(R.id.albumcover)
+    val options: ImageView = itemView.findViewById(R.id.options)
 }

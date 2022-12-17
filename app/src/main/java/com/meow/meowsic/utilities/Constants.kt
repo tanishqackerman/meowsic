@@ -19,20 +19,20 @@ open class Constants {
     val SEARCH_SONG_WITH_ID = 5
     val SEARCH_ARTISTS_WITH_QUERY = 6
     val SEARCH_ARTIST_WITH_ID = 7
-    val SEARCH_ARTISTS_WITH_USER_ID = 8
+    val SEARCH_SONGS_WITH_ARTIST_ID = 8
 
     val TYPE_TRACK = 11
-    val TYPE_USER = 12
+    val TYPE_ARTIST = 12
     val TYPE_PLAYLIST = 13
     val TYPE_HISTORY = 25
     val TYPE_DATA = 26
 
 
-    val USER_MODEL_KEY = "user"
+    val ARTIST_MODEL_KEY = "user"
     val SONG_MODEL_KEY = "song"
     val SONG_ID_KEY = "song_id"
     val USER_ID_KEY = "user_id"
-    val USERS_MODEL_KEY = "users"
+    val ARTISTS_MODEL_KEY = "users"
     val SONGS_MODEL_KEY = "songs"
     val SONG_POSITION_MODEL_KEY = "song_position"
     val FRAGMENT_HOME = "homeFragment"

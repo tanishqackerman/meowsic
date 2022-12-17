@@ -111,8 +111,9 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="17dp"
+                android:padding="3dp"
                 android:src="@drawable/previous"
-                app:tint="@color/white" />
+                app:tint="@color/white"/>
 
             <ImageView
                 android:id="@+id/bottomplaypause"
@@ -129,6 +130,7 @@
                 android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
+                android:padding="3dp"
                 android:src="@drawable/next"
                 app:tint="@color/white" />
 

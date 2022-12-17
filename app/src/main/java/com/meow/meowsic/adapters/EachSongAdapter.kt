@@ -15,56 +15,28 @@ class EachSongAdapter(
     val context: Context?,
     val playlists: Playlists,
 //    val itemClickListener: ItemClickListener
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    ) : RecyclerView.Adapter<EachSongViewHolder>() {
 
-    val Header = 1
-        val Normal = 2
-//    interface ItemClickListener {
-//        fun onItemClick(view: View?, position: Int, check: Int)
-//    }
+    var selectedPosition: Int = 0
 
-    private fun isPositionHeader(position: Int): Boolean {
-        return position == 0
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EachSongViewHolder {
+        val v: View = LayoutInflater.from(context).inflate(R.layout.song_item, parent, false)
+        return EachSongViewHolder(v)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == Header) {
-            val v: View = LayoutInflater.from(context).inflate(R.layout.home_header, parent, false)
-            HeaderViewHolder(v)
-        } else {
-            val v: View = LayoutInflater.from(context).inflate(R.layout.song_item, parent, false)
-            EachSongViewHolder(v)
+    override fun onBindViewHolder(holder: EachSongViewHolder, position: Int) {
+        val item = playlists.songs[position]
+        holder.songname.text = item.name
+        holder.artistname.text = item.artist
+        if (context != null) {
+            Glide.with(context)
+                .load(item.songArtwork)
+                .into(holder.albumcover)
         }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is EachSongViewHolder) {
-            val item = playlists.songs?.get(position - 1)
-            holder.songname.text = item?.name
-            holder.artistname.text = item?.artist
-            if (context != null) {
-                Glide.with(context)
-                    .load(item?.songArtwork)
-                    .into(holder.albumcover)
-            }
-            if (item?.songArtwork == null) holder.albumcover.setImageResource(R.drawable.rep)
-        } else if (holder is HeaderViewHolder) {
-            holder.playlistname.text = playlists.name?.lowercase()
-            if (context != null) {
-                Glide.with(context)
-                    .load(playlists.artwork)
-                    .into(holder.playlistcover)
-            }
-//            holder.playlistcover.setImageResource(R.drawable.rep)
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (isPositionHeader(position)) Header
-        else Normal
+        if (item.songArtwork == null) holder.albumcover.setImageResource(R.drawable.rep)
     }
 
     override fun getItemCount(): Int {
-        return playlists.songs?.size!! + 1
+        return playlists.songs.size
     }
 }

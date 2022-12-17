@@ -21,7 +21,7 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
     private val TYPE_ARTIST = 1
     private val TYPE_PLAYLIST = 2
     private val TYPE_FOOTER = 101
-    private val headers = arrayOf("songs", "artists", "playlists")
+    private val headers = arrayOf("Songs", "Artists", "Playlists")
     private val footers = arrayOf("See all songs", "See all artists", "See all playlists")
     private var FOOTER_TRACK = 1
     private var FOOTER_ARTIST = 3
@@ -105,6 +105,21 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
                     Constants.EACH_SONG_LAYOUT_CLICKED
                 )
             }
+            eachSongVIewHolder.options.setOnClickListener {
+                itemClickListener.onItemClick(
+                    v,
+                    eachSongVIewHolder.adapterPosition - 1,
+                    Constants.EACH_SONG_MENU_CLICKED
+                )
+            }
+            eachSongVIewHolder.songcard.setOnLongClickListener {
+                itemClickListener.onItemClick(
+                    v,
+                    eachSongVIewHolder.adapterPosition - 1,
+                    Constants.EACH_SONG_VIEW_LONG_CLICKED
+                )
+                return@setOnLongClickListener true
+            }
             return eachSongVIewHolder
         } else if (viewType == TYPE_ARTIST) {
             v = LayoutInflater.from(parent.context).inflate(R.layout.artist_item, parent, false)
@@ -127,6 +142,13 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
                     Constants.EACH_PLAYLIST_LAYOUT_CLICKED
                 )
             }
+            eachPlaylistViewHolder.options.setOnClickListener {
+                itemClickListener.onItemClick(
+                    v,
+                    eachPlaylistViewHolder.adapterPosition - (HEADER_PLAYLIST + 1),
+                    Constants.EACH_PLAYLIST_MENU_CLICKED
+                )
+            }
             return eachPlaylistViewHolder
         }
     }
@@ -142,6 +164,9 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
                     Glide.with(context)
                         .load(song?.songArtwork)
                         .into(eachSongViewHolder.albumcover)
+                }
+                if (position == selectedPosition) {
+                    eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.colorAccent)!!)
                 }
             }
             TYPE_ARTIST -> {

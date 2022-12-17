@@ -8,6 +8,7 @@ import android.media.AudioManager.OnAudioFocusChangeListener
 import android.media.MediaPlayer
 import android.media.MediaPlayer.*
 import android.os.*
+import android.util.Log
 import android.widget.Toast
 import com.meow.meowsic.models.Playlists
 import com.meow.meowsic.models.Songs
@@ -50,9 +51,9 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
     private fun initialise() {
         context = this
         pref = SharedPreference(context)
-        playlist = pref.getCurrentPlaylist()
+        playlist = pref.getCurrentPlaylist()!!
         state = -1
-        songs = playlist.songs!!
+        songs = playlist.songs
         songPosition = pref.getCurrentPlayingSongPosition()
 //        shuffleSongList = pref.getc
         audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -80,26 +81,12 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        mp = MediaPlayer()
-        mp.setWakeMode(
-            applicationContext,
-            PowerManager.PARTIAL_WAKE_LOCK
-        )
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        mp.setOnErrorListener(this)
-        mp.setOnCompletionListener(this)
-        mp.setOnBufferingUpdateListener(this)
-        mp.setOnPreparedListener(this)
-        mp.setOnSeekCompleteListener(this)
-        handler = Handler(Looper.getMainLooper())
-
         context = this
         pref = SharedPreference(context)
-        playlist = pref.getCurrentPlaylist()
+        playlist = pref.getCurrentPlaylist()!!
         state = -1
-        songs = playlist.songs!!
+        songs = playlist.songs
         songPosition = pref.getCurrentPlayingSongPosition()
-//        shuffleSongList = pref.getc
         audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         return START_STICKY
@@ -111,7 +98,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 
     override fun onCompletion(p0: MediaPlayer?) {
         if (mp.currentPosition > 0) {
-            if (songPosition != playlist.songs?.size!! - 1) mp.reset()
+            if (songPosition != playlist.songs.size - 1) mp.reset()
             playNext()
         }
     }
@@ -129,7 +116,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
             override fun run() {
                 val current: Int = getPosition()
                 viewMusicInterface?.onMusicProgress(current / 100)
-                if (songPosition < playlist.songs?.size!!) musicServiceInterface?.onMusicProgress((current * 10000 / playlist.songs!![songPosition].duration).toInt())
+                if (songPosition < playlist.songs.size) musicServiceInterface?.onMusicProgress((current * 10000 / playlist.songs[songPosition].duration).toInt())
                 handler.postDelayed(this, 100)
             }
         }, 100)
@@ -148,7 +135,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
     }
 
     fun startSong() {
-        val song: Songs = playlist.songs?.get(songPosition)!!
+        val song: Songs = playlist.songs[songPosition]
 //        showNotification(song)
         setState(Constants.MUSIC_LOADED)
         musicServiceInterface!!.onSongChanged(songPosition)
@@ -157,7 +144,6 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         }
         mp.reset()
         val url: String? = song.url
-//        val url: String = song.url + "?client_id=" + Urls.CLIENT_ID
         pref.setCurrentPlayingSong(song.id)
         try {
             mp.setDataSource(url)
@@ -167,7 +153,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         }
     }
 
-    fun setSongs(songs: List<Songs>) {
+    fun setSongs(songs: ArrayList<Songs>) {
         this.songs = songs
     }
 
@@ -216,13 +202,12 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         }
     }
 
-    //skip to previous track
     fun playPrev() {
         if (pref.getIsShuffleOn()) {
 //            songPosition = FisherYatesShuffle.getPreviousShufflePosition(context)
         } else {
             if (songPosition == 0) {
-                if (pref.getIsRepeatOn()) songPosition = playlist.songs?.size!! - 1 else {
+                if (pref.getIsRepeatOn()) songPosition = playlist.songs.size - 1 else {
                     setState(Constants.MUSIC_ENDED)
 //                    notificationGenerator.updateView(false, songPosition)
                 }
@@ -238,7 +223,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         if (pref.getIsShuffleOn()) {
 //            songPosition = FisherYatesShuffle.getNextShufflePosition(context)
         } else {
-            if (songPosition == playlist.songs?.size!! - 1) {
+            if (songPosition == playlist.songs.size - 1) {
                 if (pref.getIsRepeatOn()) songPosition = 0 else {
                     setState(Constants.MUSIC_ENDED)
 //                    notificationGenerator.updateView(false, songPosition)
@@ -267,9 +252,9 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 
     private fun setState(state: Int) {
         this.state = state
-        musicServiceInterface!!.onMusicDisturbed(state, playlist.songs?.get(songPosition))
+        musicServiceInterface!!.onMusicDisturbed(state, playlist.songs[songPosition])
         if (viewMusicInterface != null) {
-            viewMusicInterface!!.onMusicDisturbed(state, playlist.songs?.get(songPosition))
+            viewMusicInterface!!.onMusicDisturbed(state, playlist.songs[songPosition])
         }
     }
 
