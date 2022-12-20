@@ -27,8 +27,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            app:shapeAppearanceOverlay="@style/roundimg"
-            android:src="@drawable/rep"/>
+            app:shapeAppearanceOverlay="@style/roundimg"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,22 +38,20 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/songname"
+                android:id="@+id/eachsongname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/white"
-                android:text="Lover"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/artistname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:text="Taylor Swift"/>
+                android:ellipsize="end"/>
 
         </LinearLayout>
 

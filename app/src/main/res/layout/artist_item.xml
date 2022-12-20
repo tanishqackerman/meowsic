@@ -27,8 +27,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            app:shapeAppearanceOverlay="@style/roundimg"
-            android:src="@drawable/rep"/>
+            app:shapeAppearanceOverlay="@style/roundimg"/>
 
 
             <TextView
@@ -40,8 +39,7 @@
                 android:layout_margin="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/white"
-                android:text="Taylor Swift"/>
+                android:textColor="@color/white"/>
 
     </LinearLayout>
 

@@ -27,8 +27,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            app:shapeAppearanceOverlay="@style/roundimg"
-            android:src="@drawable/rep"/>
+            app:shapeAppearanceOverlay="@style/roundimg"/>
 
         <TextView
             android:id="@+id/playlistname"
@@ -40,8 +39,7 @@
             android:layout_margin="10dp"
             android:maxLines="1"
             android:layout_weight="1"
-            android:textColor="@color/white"
-            android:text="Lover"/>
+            android:textColor="@color/white"/>
 
         <ImageView
             android:id="@+id/options"

@@ -46,8 +46,7 @@
                             app:shapeAppearanceOverlay="@style/roundimg"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
-                            android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/rep" />
+                            android:scaleType="centerCrop"/>
 
                         <TextView
                             android:id="@+id/artistname"
@@ -56,7 +55,6 @@
                             android:layout_below="@+id/artistimage"
                             android:gravity="center"
                             android:paddingLeft="8dp"
-                            android:text="Taylor Swift"
                             android:paddingRight="8dp"
                             android:paddingTop="24dp"
                             android:textColor="@color/white"

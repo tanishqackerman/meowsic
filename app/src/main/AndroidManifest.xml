@@ -29,6 +29,7 @@
 
         <activity
             android:name=".activities.SongPlayerActivity"
+            android:screenOrientation="portrait"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -36,6 +37,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +49,20 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <receiver android:name=".receivers.NotificationBroadcast"
+            android:exported="true"
+            tools:ignore="WrongManifestParent">
+            <intent-filter>
+                <action android:name="com.meow.meowsic.utilities.nextClick" />
+                <action android:name="com.meow.meowsic.utilities.previousClick" />
+                <action android:name="com.meow.meowsic.utilities.playPauseClick" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

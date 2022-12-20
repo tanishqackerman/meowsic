@@ -65,7 +65,6 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val v: View
-//        when (viewType) {
         if (viewType == TYPE_HEADER) {
             v = LayoutInflater.from(parent.context).inflate(R.layout.searchsongheader, parent, false)
             return SongHeaderViewHolder(v)
@@ -165,9 +164,8 @@ class SearchSongAdapter(val context: Context?, val itemClickListener: ItemClickL
                         .load(song?.songArtwork)
                         .into(eachSongViewHolder.albumcover)
                 }
-                if (position == selectedPosition) {
-                    eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.colorAccent)!!)
-                }
+                if (position == selectedPosition) eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.teal_200)!!)
+                else eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.white)!!)
             }
             TYPE_ARTIST -> {
                 val artist: Artists? = if (hasArtistHeader && position - HEADER_ARTIST - 1 >= 0) artists?.get(position - HEADER_ARTIST - 1) else null

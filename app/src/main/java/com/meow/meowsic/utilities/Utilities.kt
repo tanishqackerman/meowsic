@@ -88,10 +88,10 @@ class Utilities {
 
     fun getBackgroundColorFromPalette(palette: Palette?): Int {
         if (palette != null) {
-            var background = palette.getDarkVibrantColor(-0x9e9d9f)
-            if (background == -0x9e9d9f) background = palette.getDarkMutedColor(-0x9e9d9f)
-            if (background == -0x9e9d9f) background = palette.getVibrantColor(-0x9e9d9f)
-            if (background == -0x9e9d9f) background = palette.getMutedColor(-0x9e9d9f)
+            var background = palette.getVibrantColor(-0x9e9d9f)
+//            if (background == -0x9e9d9f) background = palette.getDarkMutedColor(-0x9e9d9f)
+//            if (background == -0x9e9d9f) background = palette.getVibrantColor(-0x9e9d9f)
+//            if (background == -0x9e9d9f) background = palette.getMutedColor(-0x9e9d9f)
             return background
         }
         return -0x9e9d9f
@@ -99,8 +99,8 @@ class Utilities {
 
     fun getVibrantColorFromPalette(palette: Palette?): Int {
         if (palette != null) {
-            var background = palette.getDarkVibrantColor(-0x9e9d9f)
-            if (background == -0x9e9d9f) background = palette.getVibrantColor(-0x9e9d9f)
+            var background = palette.getVibrantColor(-0x9e9d9f)
+//            if (background == -0x9e9d9f) background = palette.getVibrantColor(-0x9e9d9f)
             return background
         }
         return -0x9e9d9f

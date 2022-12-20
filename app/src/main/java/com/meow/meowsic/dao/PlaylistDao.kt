@@ -114,7 +114,6 @@ class PlaylistDao(val context: Context?, requestCallback: RequestCallback) : Vol
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        Log.d("hehe", e.toString())
                     }
                     requestCallback.onRequestSuccessful(
                         songs,

@@ -10,7 +10,7 @@ import com.meow.meowsic.R
 
 class EachSongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val songcard: CardView = itemView.findViewById(R.id.songcard)
-    val songname: TextView = itemView.findViewById(R.id.songname)
+    val songname: TextView = itemView.findViewById(R.id.eachsongname)
     val albumcover: ImageView = itemView.findViewById(R.id.albumcover)
     val artistname: TextView = itemView.findViewById(R.id.artistname)
     val options: ImageView = itemView.findViewById(R.id.options)

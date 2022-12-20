@@ -15,12 +15,13 @@
 
 <!--    <ImageView-->
 <!--        android:id="@+id/profileicon"-->
-<!--        android:padding="15dp"-->
+<!--        android:padding="17dp"-->
 <!--        android:layout_gravity="end"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="match_parent"-->
 <!--        android:adjustViewBounds="true"-->
-<!--        android:src="@drawable/ic_baseline_person_24"/>-->
+<!--        android:src="@drawable/paws"-->
+<!--        app:tint="@color/white" />-->
 
 <!--    <ImageView-->
 <!--        android:id="@+id/searchicon"-->

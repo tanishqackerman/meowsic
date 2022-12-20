@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import org.json.JSONObject
 
-class Playlists(var playlist: JSONObject?, songslist: ArrayList<Songs>?, typestring: String?) : Parcelable {
+class Playlists(var playlist: JSONObject?, songslist: ArrayList<Songs>?, typestring: String?, id: String?) : Parcelable {
 
     var UNKNOWN: String? = "Unknown"
     var type: String? = null
@@ -15,6 +15,7 @@ class Playlists(var playlist: JSONObject?, songslist: ArrayList<Songs>?, typestr
     lateinit var songs: ArrayList<Songs>
 
     constructor(parcel: Parcel) : this(
+        null,
         null,
         null,
         null
@@ -28,7 +29,7 @@ class Playlists(var playlist: JSONObject?, songslist: ArrayList<Songs>?, typestr
         songs = ArrayList()
     }
 
-    constructor(playlist: JSONObject?) : this(playlist, null, null) {
+    constructor(playlist: JSONObject?) : this(playlist, null, null, null) {
         this.id = playlist?.getString("id")
         this.name = if (playlist!!.has("name")) playlist.getString("name") else UNKNOWN
         this.artwork = playlist.getJSONArray("images").getJSONObject(0).getString("url")
@@ -43,14 +44,19 @@ class Playlists(var playlist: JSONObject?, songslist: ArrayList<Songs>?, typestr
         }
     }
 
-    constructor(songslist: ArrayList<Songs>, typestring: String?) : this(null, songslist, typestring) {
+    constructor(songslist: ArrayList<Songs>, typestring: String?) : this(null, songslist, typestring, null) {
         this.songs = songslist
         this.type = typestring
         this.name = typestring
     }
 
-    constructor(songslist: ArrayList<Songs>) : this(null, songslist, null) {
+    constructor(songslist: ArrayList<Songs>) : this(null, songslist, null, null) {
         this.songs = songslist
+    }
+
+    constructor(id: String?, songslist: ArrayList<Songs>) : this(null, songslist, null, id) {
+        this.songs = songslist
+        this.id = id
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

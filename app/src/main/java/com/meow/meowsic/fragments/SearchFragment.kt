@@ -73,8 +73,8 @@ class SearchFragment : Fragment(), RequestCallback {
                 when (check) {
                     Constants.EACH_SONG_LAYOUT_CLICKED -> {
                         val playlist: Playlists = Playlists(songs, binding.querysearch.text.toString())
-                        val added: Long = databaseAdapter.addToHistory(Hybrid(Constants.TYPE_TRACK, song.id, song.songArtwork, song.name, song.artist))
-                        (activity as MainActivity).playSongInMainActivity(position, playlist, false)
+                        databaseAdapter.addToHistory(Hybrid(Constants.TYPE_TRACK, song.id, song.songArtwork, song.name, song.artist))
+                        (activity as MainActivity).playSongInMainActivity(position, playlist, true)
                         changeSelectedPosition(position + 1)
                     }
                     Constants.EACH_SONG_MENU_CLICKED, Constants.EACH_SONG_VIEW_LONG_CLICKED -> {
@@ -158,7 +158,8 @@ class SearchFragment : Fragment(), RequestCallback {
                         bundle.putInt(Constants.TYPE, Constants.TYPE_PLAYLIST)
                         bundle.putParcelable(Constants.PLAYLIST_MODEL_KEY, playlists[position])
                         artistFragment.arguments = bundle
-                        fragmentManager!!.beginTransaction().replace(R.id.frame, artistFragment, Constants.FRAGMENT_USER_PAGE).addToBackStack(artistFragment.javaClass.name).commit()
+                        fragmentManager?.beginTransaction()?.replace(R.id.frame, artistFragment, Constants.FRAGMENT_USER_PAGE)?.addToBackStack(artistFragment.javaClass.name)?.commit()
+
                     }
                     Constants.SEE_ALL_PLAYLISTS_CLICKED -> {
                         seeAllFragment = SeeAllFragment()
@@ -423,6 +424,7 @@ class SearchFragment : Fragment(), RequestCallback {
                     val songs: ArrayList<Songs> = ArrayList<Songs>()
                     songs.add(song)
                     val playlist = Playlists(songs, "History")
+                    Toast.makeText(context, songs[0].name.toString(), Toast.LENGTH_SHORT).show()
                     (activity as MainActivity?)!!.playSongInMainActivity(0, playlist, false)
                 }
             }

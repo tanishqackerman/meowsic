@@ -75,7 +75,6 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/rep"
                 app:shapeAppearanceOverlay="@style/roundimg" />
 
             <LinearLayout
@@ -92,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Lover"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -101,19 +99,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="Taylor Swift" />
+                    android:maxLines="1" />
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/bottomprev"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="17dp"
-                android:padding="3dp"
-                android:src="@drawable/previous"
-                app:tint="@color/white"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/bottomprev"-->
+<!--                android:layout_width="25dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginEnd="17dp"-->
+<!--                android:padding="3dp"-->
+<!--                android:src="@drawable/previous"-->
+<!--                app:tint="@color/white"/>-->
 
             <ImageView
                 android:id="@+id/bottomplaypause"
@@ -124,15 +122,15 @@
                 android:src="@drawable/play"
                 app:tint="@color/white" />
 
-            <ImageView
-                android:id="@+id/bottomnext"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
-                android:padding="3dp"
-                android:src="@drawable/next"
-                app:tint="@color/white" />
+<!--            <ImageView-->
+<!--                android:id="@+id/bottomnext"-->
+<!--                android:layout_width="25dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:padding="3dp"-->
+<!--                android:src="@drawable/next"-->
+<!--                app:tint="@color/white" />-->
 
         </LinearLayout>
 

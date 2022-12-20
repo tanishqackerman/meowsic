@@ -1,9 +1,12 @@
 package com.meow.meowsic.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.meow.meowsic.R
@@ -13,12 +16,13 @@ import com.meow.meowsic.models.Songs
 import com.meow.meowsic.utilities.Constants
 import com.meow.meowsic.viewHolders.*
 
-class SeeAllAdapter(val context: Context?,
-                    songs: ArrayList<Songs>,
-                    val artists: ArrayList<Artists>?,
-                    val playlists: ArrayList<Playlists>?,
-                    val itemClickListener: ItemClickListener,
-                    val TYPE: Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SeeAllAdapter(
+    val context: Context?,
+    songs: ArrayList<Songs>,
+    val artists: ArrayList<Artists>?,
+    val playlists: ArrayList<Playlists>?,
+    val itemClickListener: ItemClickListener,
+    val TYPE: Int?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedPosition: Int = 0
     private val Constants = Constants()
@@ -28,30 +32,30 @@ class SeeAllAdapter(val context: Context?,
         val v: View
         if (TYPE == Constants.TYPE_TRACK) {
             v = LayoutInflater.from(parent.context).inflate(R.layout.song_item, parent, false)
-            val eachSongVIewHolder: EachSongViewHolder = EachSongViewHolder(v)
-            eachSongVIewHolder.songcard.setOnClickListener {
+            val eachSongViewHolder: EachSongViewHolder = EachSongViewHolder(v)
+            eachSongViewHolder.songcard.setOnClickListener {
                 itemClickListener.onItemClick(
                     v,
-                    eachSongVIewHolder.adapterPosition,
+                    eachSongViewHolder.adapterPosition,
                     Constants.EACH_SONG_LAYOUT_CLICKED
                 )
             }
-            eachSongVIewHolder.options.setOnClickListener {
+            eachSongViewHolder.options.setOnClickListener {
                 itemClickListener.onItemClick(
                     v,
-                    eachSongVIewHolder.adapterPosition,
+                    eachSongViewHolder.adapterPosition,
                     Constants.EACH_SONG_MENU_CLICKED
                 )
             }
-            eachSongVIewHolder.songcard.setOnLongClickListener {
+            eachSongViewHolder.songcard.setOnLongClickListener {
                 itemClickListener.onItemClick(
                     v,
-                    eachSongVIewHolder.adapterPosition,
+                    eachSongViewHolder.adapterPosition,
                     Constants.EACH_SONG_VIEW_LONG_CLICKED
                 )
                 return@setOnLongClickListener true
             }
-            return eachSongVIewHolder
+            return eachSongViewHolder
         } else if (TYPE == Constants.TYPE_ARTIST) {
             v = LayoutInflater.from(parent.context).inflate(R.layout.artist_item, parent, false)
             val eachArtistViewHolder: EachArtistViewHolder = EachArtistViewHolder(v)
@@ -84,21 +88,22 @@ class SeeAllAdapter(val context: Context?,
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (TYPE) {
             Constants.TYPE_TRACK -> {
                 val song: Songs = songs[position]
                 val eachSongViewHolder = holder as EachSongViewHolder
                 eachSongViewHolder.songname.text = song.name
+//                Toast.makeText(context, "$position $selectedPosition", Toast.LENGTH_SHORT).show()
                 eachSongViewHolder.artistname.text = song.artist
                 if (context != null) {
                     Glide.with(context)
                         .load(song.songArtwork)
                         .into(eachSongViewHolder.albumcover)
                 }
-                if (position == selectedPosition) {
-                    eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.colorAccent)!!)
-                }
+                if (position == selectedPosition) eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.teal_200)!!)
+                else eachSongViewHolder.songname.setTextColor(context?.resources?.getColor(R.color.white)!!)
             }
             Constants.TYPE_ARTIST -> {
                 val artist: Artists? = artists?.get(position)
@@ -124,11 +129,12 @@ class SeeAllAdapter(val context: Context?,
     }
 
     override fun getItemCount(): Int {
-        if (TYPE == Constants.TYPE_TRACK) return songs.size
-        else if (TYPE == Constants.TYPE_ARTIST) return artists?.size!!
-        else return playlists?.size!!
+        return if (TYPE == Constants.TYPE_TRACK) songs.size
+        else if (TYPE == Constants.TYPE_ARTIST) artists?.size!!
+        else playlists?.size!!
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun changeSongData(songs: ArrayList<Songs>) {
         this.songs = songs
         notifyDataSetChanged()
@@ -139,6 +145,7 @@ class SeeAllAdapter(val context: Context?,
         notifyItemRemoved(position)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun notifySongAddedToPlaylist(songs: ArrayList<Songs>) {
         this.songs = songs
         notifyDataSetChanged()

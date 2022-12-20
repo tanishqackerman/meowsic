@@ -3,15 +3,20 @@ package com.meow.meowsic.services
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.media.AudioManager.OnAudioFocusChangeListener
 import android.media.MediaPlayer
 import android.media.MediaPlayer.*
 import android.os.*
-import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.meow.meowsic.models.Playlists
 import com.meow.meowsic.models.Songs
+import com.meow.meowsic.receivers.NotificationGenerator
 import com.meow.meowsic.utilities.Constants
 import com.meow.meowsic.utilities.SharedPreference
 import java.io.IOException
@@ -32,7 +37,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
     private var viewMusicInterface: MusicService.ViewMusicInterface? = null
     private var state = 0
     private lateinit var audioManager: AudioManager
-//    private val notificationGenerator: NotificationGenerator? = null
+    private lateinit var notificationGenerator: NotificationGenerator
     private lateinit var shuffleSongList: ArrayList<Int>
     private lateinit var seekBarTask: AsyncTask<Void, Int, Int>
     private lateinit var  handler: Handler
@@ -55,7 +60,6 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         state = -1
         songs = playlist.songs
         songPosition = pref.getCurrentPlayingSongPosition()
-//        shuffleSongList = pref.getc
         audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
 
@@ -136,7 +140,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
 
     fun startSong() {
         val song: Songs = playlist.songs[songPosition]
-//        showNotification(song)
+        showNotification(song)
         setState(Constants.MUSIC_LOADED)
         musicServiceInterface!!.onSongChanged(songPosition)
         if (viewMusicInterface != null) {
@@ -196,41 +200,33 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
             )
             mp.start()
             setState(Constants.MUSIC_PLAYED)
-//            notificationGenerator.updateView(true, songPosition)
+            notificationGenerator.updateView(true, songPosition)
         } else {
             startSong()
         }
     }
 
     fun playPrev() {
-        if (pref.getIsShuffleOn()) {
-//            songPosition = FisherYatesShuffle.getPreviousShufflePosition(context)
-        } else {
-            if (songPosition == 0) {
-                if (pref.getIsRepeatOn()) songPosition = playlist.songs.size - 1 else {
-                    setState(Constants.MUSIC_ENDED)
-//                    notificationGenerator.updateView(false, songPosition)
-                }
-            } else {
-                songPosition--
+        if (songPosition == 0) {
+            if (pref.getIsRepeatOn()) songPosition = playlist.songs.size - 1 else {
+                setState(Constants.MUSIC_ENDED)
+                notificationGenerator.updateView(false, songPosition)
             }
+        } else {
+            songPosition--
         }
         startSong()
     }
 
-    //skip to next
     fun playNext() {
-        if (pref.getIsShuffleOn()) {
-//            songPosition = FisherYatesShuffle.getNextShufflePosition(context)
-        } else {
-            if (songPosition == playlist.songs.size - 1) {
-                if (pref.getIsRepeatOn()) songPosition = 0 else {
-                    setState(Constants.MUSIC_ENDED)
-//                    notificationGenerator.updateView(false, songPosition)
-                }
-            } else {
-                songPosition++
+        if (songPosition == playlist.songs.size - 1) {
+            if (pref.getIsRepeatOn()) songPosition = 0 else {
+                setState(Constants.MUSIC_ENDED)
+                notificationGenerator.updateView(false, songPosition)
             }
+        }
+        else {
+            songPosition++
         }
         startSong()
     }
@@ -246,7 +242,7 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         }
     }
 
-    private fun getState(): Int {
+    fun getState(): Int {
         return state
     }
 
@@ -262,6 +258,19 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         this.playlist = playlist
     }
 
+    private fun showNotification(song: Songs) {
+        notificationGenerator = NotificationGenerator()
+        Glide.with(context).asBitmap().load(song.songArtwork).into(object : SimpleTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                notificationGenerator.showNotification(context, songPosition, playlist, resource)
+            }
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                notificationGenerator.showNotification(context, songPosition, playlist, null)
+            }
+        })
+    }
+
     interface MusicServiceInterface {
         fun onMusicDisturbed(state: Int, song: Songs?)
         fun onSongChanged(newPosition: Int)
@@ -274,7 +283,6 @@ class MusicService : Service(), OnCompletionListener, OnAudioFocusChangeListener
         fun onMusicProgress(position: Int)
     }
 
-    //binder
     inner class MusicBinder : Binder() {
         fun getService(): MusicService {
             return this@MusicService
